@@ -203,16 +203,12 @@ grep -r base_link
 
 - [注意！]
 
-  若遇到rf2o无法编译问题（如下图所示）
-
-  ![](https://i.loli.net/2020/07/31/NqmYgJaDKI5VlML.png)
-
-  解决方法：
+  遇到rf2o无法编译问题的解决方法：
 
   将laser_pose = laser_pose + pose_aux_2D改为
 
   ```
-  laser_pose = laser_pose + poses::CPose3D(pose_aux_2D)
+laser_pose = laser_pose + poses::CPose3D(pose_aux_2D)
   ```
 
 ### 说明
