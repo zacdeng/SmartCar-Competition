@@ -1,0 +1,23 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/chenqibin/racecar/racecar_ws/devel/include",
+        "/opt/ros/kinetic/include",
+        "/home/chenqibin/racecar/racecar_ws/src/racecar/system/racecar/ackermann_cmd_mux/include",
+        "/home/chenqibin/racecar/racecar_ws/src/racecar/system/hokuyo_node/include",
+        "/home/chenqibin/racecar/racecar_ws/src/rf2o_laser_odometry/include",
+        "/home/chenqibin/racecar/racecar_ws/src/robot_pose_ekf-master/include",
+        "/home/chenqibin/racecar/racecar_ws/src/racecar/system/serial/include",
+        "/home/chenqibin/racecar/racecar_ws/src/racecar/system/vesc/vesc_ackermann/include",
+        "/home/chenqibin/racecar/racecar_ws/src/racecar/system/vesc/vesc_driver/include",
+        "/usr/include"
+      ],
+      "name": "Linux"
+    }
+  ]
+}

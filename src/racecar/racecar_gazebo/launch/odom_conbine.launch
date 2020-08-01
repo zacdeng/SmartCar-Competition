@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+    <param name="output_frame" value="odom_combined"/>  #表示输出的主题：odom_combined
+    <param name="base_footprint_frame" value="base_footprint"/>
+    <param name="freq" value="30.0"/>                   #表示发布主题的频率 30hz
+    <param name="sensor_timeout" value="1.0"/>          #表示超时时间，1.0表示1秒，如果1秒内没有传感器输入，会报错。
+    <param name="odom_used" value="true"/>              #表示里程计使能
+    <param name="imu_used" value="true"/>               #表示imu使能
+    <param name="vo_used" value="false"/>               #视觉里程计
+    <param name="debug" value="true"/>
+    <param name="self_diagnose" value="false"/>
+    <!--remap from="imu_data"  to ="imu_data1"/-->      #取消注释为添加滤波
+  </node> 
+ </launch>

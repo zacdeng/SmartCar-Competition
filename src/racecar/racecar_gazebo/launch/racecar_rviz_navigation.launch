@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+    <!--查看rviz中navigation地图 可在rviz中add小车模型(RacecarModel)-->
+　　<include file="$(find racecar_gazebo)/launch/racecar.launch">
+      <arg name="world_name" value="test101"/>
+    </include>
+    
+    <!-- 启动rf2o_laser_odometry代替gazebo_linkstate发出的odometry -->
+    <include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch" />
+
+    <!-- 启动rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find racecar_gazebo)/config/racecar_rviz.rviz"></node>
+</launch>
+
+

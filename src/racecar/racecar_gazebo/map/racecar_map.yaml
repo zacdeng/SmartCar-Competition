@@ -1,0 +1,7 @@
+image: racecar_map.pgm
+resolution: 0.0500
+origin: [-1.476079, -3.741444, 0.000000]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+

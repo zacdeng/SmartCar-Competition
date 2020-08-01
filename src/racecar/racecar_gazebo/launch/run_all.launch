@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Launch the racecar -->
+  <!-- 在racecar_rviz_navigation.launch文件中已启动-->
+  
+  <!--查看rviz中navigation地图 可在rviz中add小车模型(RacecarModel)-->
+　<include file="$(find racecar_gazebo)/launch/racecar.launch">
+    <arg name="world_name" value="test"/>
+  </include>
+    
+  <!-- 启动rf2o_laser_odometry代替gazebo_linkstate发出的odometry -->
+  <include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch" />
+
+  <!-- 启动rviz -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find racecar_gazebo)/config/racecar_rviz.rviz"></node>
+  
+  <!-- Launch the built-map -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find racecar_gazebo)/map/racecar_map.yaml" />
+
+  <!-- 转化消息类型-->
+  <node pkg="racecar_gazebo" type="odom_ekf.py" name="odom_ekf" output="screen">
+   	<remap from="input" to="/robot_pose_ekf/odom_combined"/>
+	<remap from="output" to="/odom_ekf"/>
+  </node>
+
+  <!--Launch the move base with time elastic band-->
+  <param name="/use_sim_time" value="true"/>
+  
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find racecar_gazebo)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find racecar_gazebo)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find racecar_gazebo)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find racecar_gazebo)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find racecar_gazebo)/config/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find racecar_gazebo)/config/teb_local_planner_params.yaml" command="load" />
+    <!--<rosparam file="$(find racecar_gazebo)/config/dwa_local_planner_params.yaml" command="load" />-->
+
+    <param name="base_global_planner" value="global_planner/GlobalPlanner_lhj"/>  
+
+    <param name = "GlobalPlanner_lhj/DECREASE_NUM1" value = "0.7"/>
+    <param name = "GlobalPlanner_lhj/DECREASE_NUM2" value = "0.8"/>
+    <param name = "GlobalPlanner_lhj/DECREASE_NUM3" value = "1.0"/>
+    <param name = "GlobalPlanner_lhj/DECREASE_NUM4" value = "1.0"/>
+    <!-- <param name = "GlobalPlanner_lhj/DECREASE_NUM1" value = "1.0"/>
+    <param name = "GlobalPlanner_lhj/DECREASE_NUM2" value = "1,0"/>
+    <param name = "GlobalPlanner_lhj/DECREASE_NUM3" value = "1.0"/>
+    <param name = "GlobalPlanner_lhj/DECREASE_NUM4" value = "1.0"/> -->
+    <param name = "GlobalPlanner_lhj/DECREASE_TH" value = "180"/>
+    <param name = "GlobalPlanner_lhj/LENGTH_SET" value = "180"/>
+
+    <!--param name="base_global_planner" value="global_planner/GlobalPlanner" /-->
+    <param name="planner_frequency" value="3.0" />
+    <param name="planner_patience" value="6.0" />
+    <!--param name="use_dijkstra" value="false" /-->
+    
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+    <!--<param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" /> -->
+    <param name="controller_frequency" value="10.0" />
+    <!-- 5.0 15.0 -->
+    <param name="controller_patience" value="15.0" />
+
+    <param name="clearing_rotation_allowed" value="false" />
+  </node>
+    
+  
+  <!-- 启动AMCL -->
+  <include file="$(find racecar_gazebo)/launch/amcl.launch" />
+
+  <!-- 启动amcl tf转换-->
+  <node pkg="odom_tf_converter" name="amcl_tf_to_odom" type="tf_to_odom" output="screen"/>
+
+  <!-- 启动path_pursuit.py 进行路径追踪 -->
+  <node pkg="racecar_gazebo" name="pursuit_path" type="path_pursuit.py" output="screen"/>
+
+  <!-- 启动odometry_combine -->
+  <include file="$(find racecar_gazebo)/launch/odom_conbine.launch" />
+
+</launch>
+
