@@ -14,6 +14,8 @@ This rep stores the source code for Smart Car simulation.
 
 More tutorials are as follow：
 
+[详细使用文档](https://zacdeng.github.io)
+
 [注意！] 有问题建议先查ROS wiki, 国内博客「古月居」也是个很好的参考
 
 [智能车仿真教程一](https://www.guyuehome.com/9123)
